@@ -1,0 +1,121 @@
+<div class='wrapper'>
+    <div class='player'>
+        <svg  class='indicator layout-desktop' width="40" height="4" viewBox="0 0 40 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line [attr.stroke]='intervieweeColor' y1="2" x2="40" y2="2" stroke-width="4"/>
+        </svg>            
+        <svg  class='indicator layout-mobile' height="24" width="4" viewBox="0 0 4 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line [attr.stroke]='intervieweeColor' x1="2" y2="24" x2="2" stroke-width="4"/>
+        </svg>            
+        <svg class='icon pause' 
+             [attr.width]="layout.desktop() ? 32 : 24" 
+             [attr.height]="layout.desktop() ? 32 : 24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+             *ngIf='playerService.isPlaying.getValue()' (click)='pause()'>
+            <path [attr.fill]='intervieweeColor' d="M0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16Z"/>
+            <mask id="path-2-inside-1" fill="white">
+                <rect x="9.06689" y="8.61523" width="5.33333" height="15.3846" rx="1"/>
+            </mask>
+            <rect x="9.06689" y="8.61523" width="5.33333" height="15.3846" rx="1" fill="white" stroke="white" stroke-width="3" mask="url(#path-2-inside-1)"/>
+            <mask id="path-3-inside-2" fill="white">
+                <rect x="17.6001" y="8.61523" width="5.33333" height="15.3846" rx="1"/>
+            </mask>
+            <rect x="17.6001" y="8.61523" width="5.33333" height="15.3846" rx="1" fill="white" stroke="white" stroke-width="3" mask="url(#path-3-inside-2)"/>
+        </svg>
+        <svg class='icon play' 
+            [attr.width]="layout.desktop() ? 32 : 24" 
+            [attr.height]="layout.desktop() ? 32 : 24" 
+            viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+             *ngIf='!playerService.isPlaying.getValue()' (click)='play()'>
+            <path [attr.fill]='intervieweeColor' d="M0 16C0 7.16344 7.16344 0 16 0V0C24.8366 0 32 7.16344 32 16V16C32 24.8366 24.8366 32 16 32V32C7.16344 32 0 24.8366 0 16V16Z"/>
+            <path d="M24.2568 16.0121L11.551 23.3408C11.3843 23.4369 11.1761 23.3167 11.1761 23.1243L11.1761 8.46679C11.1761 8.27439 11.3843 8.1541 11.551 8.25023L24.2568 15.579C24.4236 15.6752 24.4236 15.9159 24.2568 16.0121Z" fill="white" stroke="white" stroke-width="1.5"/>
+        </svg>
+    </div>
+    <div class='interviewees' #interviewees>
+        <div class='filler'></div>
+        <ng-container *ngFor='let segment of segments; let idx=index'>
+            <div class='interviewee' (mouseleave)='expanded=-1'>
+                <a class='photo' *ngIf='idx !== segmentIndex'
+                    [class.active]='false'
+                    [style.width]='segment.size + "px"'
+                    [style.height]='segment.size + "px"'
+                    [style.border-radius]='segment.size/2 + "px"'
+                    [style.border-width]='segment.size/32 + "px"'
+                    [style.margin-right]='(layout.desktop() ? (64 - (segment.size/2)) : 0) + "px"'
+                    [style.background-image]='"url(" + segment.interviewee.profile_pic[0].thumbnails.large.url + ")"'
+                    [style.border-color]='segment.interviewee.color'
+                    [attr.data-segment-id]='segment.id'
+                    [attr.data-offset]='offset(idx)'
+                    [routerLink]='"/" + id' [queryParams]='{segment: segment.id, offset: 0, who: "interviewee-click"}'
+                >
+                </a>
+                <a class='photo' *ngIf='idx === segmentIndex'
+                    [class.active]='true'
+                    [style.width]='segment.size + "px"'
+                    [style.height]='segment.size + "px"'
+                    [style.border-radius]='segment.size/2 + "px"'
+                    [style.border-width]='segment.size/32 + "px"'
+                    [style.margin-right]='(layout.desktop() ? (64 - (segment.size/2)) : 0) + "px"'
+                    [style.background-image]='"url(" + segment.interviewee.profile_pic[0].thumbnails.large.url + ")"'
+                    [style.border-color]='segment.interviewee.color'
+                    [attr.data-segment-id]='segment.id'
+                    [attr.data-offset]='offset(idx)'
+                    (click)='toggle(); $event.preventDefault()'
+                >
+                </a>
+                <div class='badges layout-desktop' [class.expanded]='expanded === idx'
+                     [class.visible]='idx === segmentIndex'
+                     (click)='expanded = expanded >= 0 ? -1 : idx'
+                >
+                    <div class='info small' [style.color]='segment.interviewee.color'
+                    [class.visible]='idx !== segmentIndex'
+                >
+                        <div class='name'>{{segment.interviewee.name}}</div>
+                        <div class='title'>{{segment.interviewee.title}}</div>
+                    </div>
+                    <div class='info big' [style.color]='segment.interviewee.color'
+                         [class.visible]='idx === segmentIndex'
+                >
+                        <div class='clock' [style.border-color]='segment.interviewee.color'>
+                            <span>{{player?player.textTimestamp.getValue():''}}</span>
+                        </div>
+                    <div class='caret'>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0)">
+                                    <path d="M8.5 0.25L3.5 5L8.5 9.625" [attr.stroke]="segment.interviewee.color" stroke-width="1.5"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0">
+                                        <rect width="10" height="10" fill="white" transform="translate(0 10) rotate(-90)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class='info big-extra' [style.color]='segment.interviewee.color'
+                         [class.visible]='idx === segmentIndex'
+                >
+                        <div class='base-info'>
+                            <div class='base-info-content'>
+                                <div class='name'>{{segment.interviewee.name}}</div>
+                                <div class='title'>{{segment.interviewee.title}}</div>    
+                            </div>
+                        </div>
+                        <div class='extended-info'>
+                            <div class='extended-info-content'>
+                                <div class='bio'>
+                                    {{segment.interviewee.bio}}
+                                </div>
+                                <div class='twitter' *ngIf='segment.interviewee.twitter_username'>
+                                    <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.1373 2.30628C14.5807 2.55294 13.9827 2.71961 13.354 2.79494C13.9953 2.41094 14.4873 1.80161 14.7193 1.07628C14.1193 1.43228 13.4547 1.69094 12.7473 1.82961C12.1807 1.22694 11.374 0.849609 10.4807 0.849609C8.766 0.849609 7.37533 2.24028 7.37533 3.95628C7.37533 4.19894 7.40333 4.43494 7.45533 4.66294C4.87333 4.53294 2.586 3.29628 1.054 1.41761C0.787333 1.87761 0.634 2.41094 0.634 2.97894C0.634 4.05628 1.18267 5.00761 2.01533 5.56428C1.506 5.54761 1.02733 5.40828 0.608667 5.17561V5.21561C0.608667 6.72028 1.67867 7.97561 3.1 8.26094C2.83867 8.33161 2.56467 8.36894 2.282 8.36894C2.082 8.36894 1.88667 8.35028 1.69733 8.31428C2.09267 9.54761 3.23933 10.4463 4.59867 10.4703C3.53533 11.3036 2.196 11.8003 0.741333 11.8003C0.490667 11.8003 0.243333 11.7856 0 11.7569C1.37467 12.6389 3.00667 13.1523 4.76 13.1523C10.4733 13.1523 13.5967 8.42028 13.5967 4.31628C13.5967 4.18294 13.5933 4.04828 13.5873 3.91494C14.194 3.47628 14.7207 2.93028 15.136 2.30828L15.1373 2.30628Z" [attr.fill]="segment.interviewee.color"/>
+                                    </svg>
+                                    <a [href]='"https://twitter.com/" + segment.interviewee.twitter_username' target='_blank'>@{{segment.interviewee.twitter_username}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <div class='filler'></div>
+    </div>
+</div>

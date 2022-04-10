@@ -1,0 +1,30 @@
+<div class='title'>
+    <h1>{{item.title}}</h1>
+    <h2 *ngIf='item.subtitle'>{{item.subtitle}}</h2>    
+    <img class='close' src='assets/img/wawb-close.svg' (click)='close.emit()'>
+</div>
+
+<div class='layout-mobile'>
+    <app-player [size]='140' [audio]='item.audio_above_s3url || item.audio_above' [image]='item.image_above || (item.audio_above ? image_above_audio_placeholder : image_above_noaudio_placeholder)'></app-player>
+    <app-player [size]='140' [audio]='item.audio_below_s3url || item.audio_below' [image]='item.image_below || (item.audio_below ? image_below_audio_placeholder : image_below_noaudio_placeholder)'></app-player>    
+</div>
+<div class='layout-desktop'>
+    <app-player [audio]='item.audio_above_s3url || item.audio_above' [image]='item.image_above || (item.audio_above ? image_above_audio_placeholder : image_above_noaudio_placeholder)'></app-player>
+    <app-player [audio]='item.audio_below_s3url || item.audio_below' [image]='item.image_below || (item.audio_below ? image_below_audio_placeholder : image_below_noaudio_placeholder)'></app-player>    
+</div>
+
+<div class='bottom'>
+    <div class='date' *ngIf='item.date'>{{date}}</div>
+    <div class='date' *ngIf='item.notes'>{{item.notes}}</div>
+    <div class='author' *ngFor='let author of item.authors'>
+        <div class='header' (click)='authorExpanded[author.name] = !authorExpanded[author.name]'>
+            <strong>{{author.name}}</strong><span>&nbsp;&mdash;&nbsp;{{author.credit}}</span>
+            <img src='assets/img/wawb-expander-icon.svg'
+                 class='expander' [class.expanded]='authorExpanded[author.name]'>
+        </div>
+        <div class='content' *ngIf='authorExpanded[author.name]'>
+            <p *ngIf='author.bio'>{{author.bio}}</p>
+            <a *ngIf='author.link' [href]='author.link' target='_blank'>{{author.link_text}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+@import '../../../common.less';
+
+.map {
+    // flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .the_map {
+        display: grid;
+    }
+
+    & > * {
+        width: 100%;
+        height: 100%;    
+    }
+
+    app-wawb-sidebar, app-wawb-infobar {
+        position: absolute;
+        .desktop({
+            top: 0;
+            right: 8px;
+            height: 100%;
+            width: auto;
+            transform: translateX(100vw);
+            &.open {
+                transform: translateX(0);
+            }
+        });
+        .mobile({
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: auto;
+            transform: translateY(100%);
+            &.open {
+                transform: translateY(0);
+            }
+        });
+        transition-property: transform;
+        transition-duration: 500ms;
+    }    
+}
+
+@media only screen and (max-width: 600px) {
+}

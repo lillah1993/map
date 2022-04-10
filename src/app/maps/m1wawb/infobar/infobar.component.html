@@ -1,0 +1,7 @@
+<div class='title'>
+    <h1 [innerHtml]='marked(wawb.TITLE)'></h1>
+    <h2 [innerHtml]='marked(wawb.SUBTITLE)'></h2>    
+    <img class='close' src='assets/img/wawb-close.svg' (click)='close.emit()'>
+</div>
+
+<p  [innerHtml]='marked(wawb.ABOUT)'></p>

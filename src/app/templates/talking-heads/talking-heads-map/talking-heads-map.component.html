@@ -1,0 +1,22 @@
+<app-layout (info)='info = $event'>
+    <div class='content'>
+        <div class='map'>
+            <div #mapEl></div>
+        </div>
+        <app-troubledwaters-timeline [id]='id' [api]='api'></app-troubledwaters-timeline>
+        <app-troubledwaters-infobar [class.open]='info' (close)='info = false'
+            [title]='infobarTitle'
+            [subtitle]='infobarSubtitle'
+            [api]='api'
+        ></app-troubledwaters-infobar>
+    </div>
+    <div class='header-title'>
+        <h2>{{ subtitle }}</h2>
+        <h1>{{ title }}</h1>
+    </div>
+</app-layout>
+
+<img class='sprite' *ngFor='let img of loadedImages' [src]='"/assets/img/m3/sprites/" + img + ".svg"'
+     (load)='imageLoaded(img, $event)'
+>
+

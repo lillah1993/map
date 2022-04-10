@@ -1,0 +1,25 @@
+<app-layout (info)='info = $event'>
+    <div class='content'>
+        <div class='map'>
+            <div #mapEl></div>
+        </div>
+        <div class='timeline'>
+            <ng-container *ngFor='let item of timeline'>
+                <app-spectours-timeline-placeholder [attr.data-year]='"Y" + item.year' [item]='item' *ngIf='item.content.length === 0'></app-spectours-timeline-placeholder>
+                <app-spectours-timeline-content [attr.data-year]='"Y" + item.year' 
+                    [active]='item.year === activeYear'
+                    [item]='item' *ngIf='item.content.length > 0'
+                    (mapView)='changeMapView($event)'
+                ></app-spectours-timeline-content>
+            </ng-container>
+        </div>
+        <app-spectours-infobar [class.open]='info' [api]='api' (close)='info = false'
+            [title]='infobarTitle'
+            [subtitle]='infobarSubtitle'
+        ></app-spectours-infobar>
+    </div>
+    <div class='header-title'>
+        <h2>{{ subtitle }}</h2>
+        <h1>{{ title }}</h1>
+    </div>
+</app-layout>

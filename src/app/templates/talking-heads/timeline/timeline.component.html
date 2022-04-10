@@ -1,0 +1,53 @@
+<div class='bios' #bios [class.expanded]='expanded'>
+    <div class='bio-container' *ngFor='let segment of segments' [attr.data-segment]='segment.id'>
+        <div class='bio-inner' [style.color]='segment.interviewee.color' >
+            <div class='header'>
+                <div class='basic'>
+                    <div class='name'>{{segment.interviewee.name}}</div>
+                    <div class='title'>{{segment.interviewee.title}}</div>
+                </div>
+                <div class='clock' [style.border-color]='segment.interviewee.color'>
+                    <span>{{playerService.clock | async}}</span>
+                </div>
+                <div class='caret' (click)='expanded = !expanded'>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                            <path d="M8.5 0.25L3.5 5L8.5 9.625" [attr.stroke]="segment.interviewee.color" stroke-width="1.5"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <rect width="10" height="10" fill="white" transform="translate(0 10) rotate(-90)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <div class='bio'>
+                {{segment.interviewee.bio}}
+            </div>
+            <div class='twitter' *ngIf='segment.interviewee.twitter_username'>
+                <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.1373 2.30628C14.5807 2.55294 13.9827 2.71961 13.354 2.79494C13.9953 2.41094 14.4873 1.80161 14.7193 1.07628C14.1193 1.43228 13.4547 1.69094 12.7473 1.82961C12.1807 1.22694 11.374 0.849609 10.4807 0.849609C8.766 0.849609 7.37533 2.24028 7.37533 3.95628C7.37533 4.19894 7.40333 4.43494 7.45533 4.66294C4.87333 4.53294 2.586 3.29628 1.054 1.41761C0.787333 1.87761 0.634 2.41094 0.634 2.97894C0.634 4.05628 1.18267 5.00761 2.01533 5.56428C1.506 5.54761 1.02733 5.40828 0.608667 5.17561V5.21561C0.608667 6.72028 1.67867 7.97561 3.1 8.26094C2.83867 8.33161 2.56467 8.36894 2.282 8.36894C2.082 8.36894 1.88667 8.35028 1.69733 8.31428C2.09267 9.54761 3.23933 10.4463 4.59867 10.4703C3.53533 11.3036 2.196 11.8003 0.741333 11.8003C0.490667 11.8003 0.243333 11.7856 0 11.7569C1.37467 12.6389 3.00667 13.1523 4.76 13.1523C10.4733 13.1523 13.5967 8.42028 13.5967 4.31628C13.5967 4.18294 13.5933 4.04828 13.5873 3.91494C14.194 3.47628 14.7207 2.93028 15.136 2.30828L15.1373 2.30628Z" [attr.fill]="segment.interviewee.color"/>
+                </svg>
+                <a [href]='"https://twitter.com/" + segment.interviewee.twitter_username' target='_blank'>@{{segment.interviewee.twitter_username}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='timeline' #timeline>
+    <div class='filler'></div>
+    <div class='segment' *ngFor='let segment of segments' [attr.data-segment]='segment.id'>
+        <div class='section' *ngFor='let section of segment.sections' [attr.data-section]='section.id'>
+            <a class='second' *ngFor='let second of section.seconds' [attr.data-second]='second'
+                 [class.played]='played(segment, second)'
+                 [ngStyle]='bgStyle(segment, second)'
+                 (click)='secondClicked(segment, second)'
+                 draggable='false'
+            >
+            </a>
+        </div>
+    </div>
+    <div class='filler'></div>
+</div>
+<app-troubledwaters-player [id]='id' [api]='api'></app-troubledwaters-player>

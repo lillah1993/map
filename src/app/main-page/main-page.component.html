@@ -1,0 +1,71 @@
+<div class='viewport'>
+
+    <div class='slide' data-index='-1'>
+        <div class='about subheading' [class.active]='-1 === active && !about'>
+            <div [innerHtml]='marked(SETTINGS.Subheading || "")'></div>
+        </div>
+    
+        <img class='close-icon' src='assets/img/close-icon.svg' *ngIf='about' (click)='about = false'>
+    
+        <div class='layout-desktop title'>
+            <img class='main' src='assets/img/title-desktop.svg'>
+            <a class='link link-about' (click)='about = true; aboutTitle()'></a>
+            <a class='link link-collaborations' (click)='about = true; collaborations()'></a>
+        </div>
+    
+        <div class='layout-mobile title' [class.active]='-1 === active'>
+            <img class='main' src='assets/img/title-mobile.svg'>
+            <a class='link link-about' (click)='about = true; aboutTitle()'></a>
+            <a class='link link-collaborations' (click)='about = true; collaborations()'></a>
+        </div>
+        <img class='globe layout-mobile' src='assets/img/globe-logo.svg' [class.active]='-1 === active'>
+    
+        <div class='about general' [class.active]='about'>
+            <div class='title about-title' [innerHtml]='"About"'></div>
+            <div class='description' [innerHtml]='marked(SETTINGS.About || "")'></div>
+            <div class='title collaborations' [innerHtml]='"Collaborations"'></div>
+            <div class='description' [innerHtml]='marked(SETTINGS.Collaborations || "")'></div>
+            <div class='title' [innerHtml]='"Credits"'></div>
+            <div class='description' [innerHtml]='marked(SETTINGS.Credits || "")'></div>
+            <div class='logos'>
+                <a href='https://www.goethe.de' target='_blank'>
+                    <img src='assets/img/logo-goethe.png'>
+                </a>
+                <a href='http://www.mediatheque.org.il/' target='_blank'>
+                    <img src='assets/img/logo-mediatheque.png'>
+                </a>
+                <a href='https://www.digitalartlab.org.il/?localeId=en-us' target='_blank'>
+                    <img src='assets/img/logo-cda.png'>
+                </a>
+    
+            </div>
+        </div>    
+    </div>
+    <ng-container *ngFor='let map of MAPS'>
+        <div class='slide' [attr.data-index]='map.idx' (click)='true'>
+            <div class='about regular' [class.active]='map.idx === active && !about'>
+                <a [href]='map.path && map.state==="live" ? map.path : null'>
+                    <div class='title arrowed'>
+                        <span class='text' [innerHtml]='marked(map.title)'></span>
+                        <ng-container *ngIf='map.path && map.state==="live"'>
+                            <div class='arrow-line'></div>
+                            <div class='arrow-head'></div>    
+                        </ng-container>
+                    </div>
+                    <div class='description' [innerHtml]='marked(map.description)'></div>    
+                </a>
+            </div>
+            <div class='map' 
+                    [class.active]='map.idx === active'
+                    [class.visible]='!mobile || !about'
+                    [style.z-index]='20 - map.idx'
+                    [style.transform]='mobile ? mapTransformMobile(map.idx) : mapTransformDesktop(map.idx)'
+                    [routerLink]='map.idx === active && map.path && map.state==="live" ? map.path : null'
+                    (click)='map.idx !== active ? scrollTo(map.idx) : true'
+                >
+                <div class='bg' [style.background-image]='"url(assets/img/map-thumbnail-" + map.key + (mobile ? "-mobile" : "-desktop") + ".png)"'></div>
+                <div class='title' [innerHtml]='marked(map.title)'></div>
+            </div>
+        </div>
+    </ng-container>
+</div>
