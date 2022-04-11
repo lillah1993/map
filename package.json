@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "-": "^0.0.1",
     "@angular/animations": "~10.0.14",
     "@angular/common": "~10.0.14",
     "@angular/compiler": "~10.0.14",
@@ -23,8 +24,11 @@
     "@sentry/angular": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
     "dayjs": "^1.9.7",
+    "http": "^0.0.1-security",
+    "js": "^0.1.0",
     "mapbox-gl": "^2.1.1",
     "marked": "^1.2.7",
+    "parser": "^0.1.4",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
