@@ -9,8 +9,8 @@
     <app-player [size]='140' [audio]='item.audio_below_s3url || item.audio_below' [image]='item.image_below || (item.audio_below ? image_below_audio_placeholder : image_below_noaudio_placeholder)'></app-player>    
 </div>
 <div class='layout-desktop'>
-    <app-player [audio]='item.audio_above_s3url || item.audio_above' [image]='item.image_above || (item.audio_above ? image_above_audio_placeholder : image_above_noaudio_placeholder)'></app-player>
-    <app-player [audio]='item.audio_below_s3url || item.audio_below' [image]='item.image_below || (item.audio_below ? image_below_audio_placeholder : image_below_noaudio_placeholder)'></app-player>    
+    <app-player [size]='100' [audio]='item.audio_above_s3url || item.audio_above' [image]='item.image_above || (item.audio_above ? image_above_audio_placeholder : image_above_noaudio_placeholder)'></app-player>
+    <app-player [size]='100' [audio]='item.audio_below_s3url || item.audio_below' [image]='item.image_below || (item.audio_below ? image_below_audio_placeholder : image_below_noaudio_placeholder)'></app-player>    
 </div>
 
 <div class='bottom'>

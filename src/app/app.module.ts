@@ -28,6 +28,7 @@ import { InfobarComponent } from './templates/talking-heads/infobar/infobar.comp
 import { MainPageComponent } from './main-page/main-page.component';
 import { TimelineMapComponent } from './templates/timeline/timeline-map/timeline-map.component';
 import { TalkingHeadsMapComponent } from './templates/talking-heads/talking-heads-map/talking-heads-map.component';
+import { DataComponent } from './maps/m1wawb/data/data.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TalkingHeadsMapComponent } from './templates/talking-heads/talking-head
     MainPageComponent,
     TimelineMapComponent,
     TalkingHeadsMapComponent,
+    DataComponent,
   ],
   imports: [
     BrowserModule,

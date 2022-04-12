@@ -1,0 +1,68 @@
+@import '../../../../common.less';
+
+
+.box {
+    display: flex;
+    flex-direction: column;
+    .top {
+        .title {
+            position: relative;
+            border-bottom: 0.5px solid #333333;
+            margin-bottom: 20px;
+    
+            h1, h2 {
+                .font-sourcecode;
+                max-width: calc(100% - 46px);
+                color: @gray1;
+            }
+    
+            h1 {
+                font-weight: bold;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+                color: @gray1;
+                .desktop({
+                    font-size: 20px;
+                    line-height: 21px;
+                });
+                .mobile({
+                    font-size: 17px;
+                    line-height: 21px;
+                });
+    
+            }
+    
+            h2 {
+                font-weight: normal;
+                font-size: 15px;
+                letter-spacing: -0.01em;
+                .desktop({
+                    font-size: 15px;
+                    line-height: 21px;
+                });
+                .mobile({
+                    font-size: 15px;
+                    line-height: 21px;
+                });
+            }
+    
+            .close {
+                cursor: pointer;
+                position: absolute;
+                top: -5px;
+                right: 0;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: row;
+        .content {
+            display: flex;
+            flex-flow: row;
+        }
+    }
+}
