@@ -10,22 +10,24 @@ import { ReplaySubject } from 'rxjs';
 })
 export class WawbService {
 
-  BASE = 'app4j8ReBz6mg40Al';
+  // BASE = 'app4j8ReBz6mg40Al';
+  BASE = 'appMvI3Q7ldjlGKyZ';
 
   authorRecords = new ReplaySubject<any>(1);
   TITLE = '';
   SUBTITLE = '';
   ABOUT = '';
-  MIN_ZOOM = 0
+  MIN_ZOOM = 3
   
   constructor(private api: ApiService) {
-    this.getAuthors();
+    // this.getAuthors();
   }
 
   fetchSettings() {
     return this.api.airtableFetch(this.BASE, 'Settings', 'website').pipe(
       map((response: any) => {
         const ret = {};
+        console.log(response);
         response.records.forEach((i) => {
           ret[i.fields.key] = i.fields.value;
         });
@@ -43,25 +45,28 @@ export class WawbService {
         this.MIN_ZOOM = parseInt(settings.min_zoom);
         return this.api.airtableFetch(this.BASE, 'Samples', 'website');
       }),
-      map((response: any) => response.records.map((rec) => {
+      
+      map((response: any) => 
+        response.records.map((rec) => {
+        console.log(response);
         return Object.assign(rec.fields, {id: rec.id});
       })),
       map((samples: any[]) => { 
         return {
           type: 'FeatureCollection',
-          features: samples.map((sample) => {
+          features: samples.filter((sample) => sample.Status === 'Published').map((sample) => {
             const coordinates = sample.coordinates.split(',').map((x) => parseFloat(x));
-            sample.symbol = (
-              (sample.audio_above && sample.audio_above.length) ? '' : 'no'
-            ) + 'above+' + (
-              (sample.audio_below && sample.audio_below.length) ? '' : 'no'
-            ) + 'below';
-            sample.image_above = sample.image_above ? sample.image_above[0].thumbnails.large.url: '';
-            sample.image_below = sample.image_below ? sample.image_below[0].thumbnails.large.url: '';
-            sample.audio_above = sample.audio_above ? sample.audio_above[0].url: '';
-            sample.audio_below = sample.audio_below ? sample.audio_below[0].url: '';
-            sample.author = sample.author ? sample.author.join(',') : '';
-            sample.author_credits = sample.author_credits ? sample.author_credits.join(',') : '';
+            // sample.symbol = (
+            //   (sample.audio_above && sample.audio_above.length) ? '' : 'no'
+            // ) + 'above+' + (
+            //   (sample.audio_below && sample.audio_below.length) ? '' : 'no'
+            // ) + 'below';
+            // sample.image_above = sample.image_above ? sample.image_above[0].thumbnails.large.url: '';
+            // sample.image_below = sample.image_below ? sample.image_below[0].thumbnails.large.url: '';
+            // sample.audio_above = sample.audio_above ? sample.audio_above[0].url: '';
+            // sample.audio_below = sample.audio_below ? sample.audio_below[0].url: '';
+            // sample.author = sample.author ? sample.author.join(',') : '';
+            // sample.author_credits = sample.author_credits ? sample.author_credits.join(',') : '';
             return {
               type: 'Feature',
               properties: sample,
@@ -73,7 +78,7 @@ export class WawbService {
           })
         } as FeatureCollection;
       })
-    );
+    )
   }
 
   getAuthors() {

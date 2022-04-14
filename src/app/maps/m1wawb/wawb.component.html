@@ -3,10 +3,12 @@
         <div class="picture">picture</div>
         <div class="container">
             <div class="the_map" #mapEl></div>           
-            <app-wawb-data [class.open]='!!sample' [item]='sample || DUMMY' (close)='sample = null'></app-wawb-data>
+            <app-wawb-data  [item]='sample' ></app-wawb-data>
         </div>
         <!-- <app-wawb-sidebar [class.open]='!!sample' [item]='sample || DUMMY' (close)='sample = null'></app-wawb-sidebar>
         <app-wawb-infobar [class.open]='!!info' (close)='info = false'></app-wawb-infobar> -->
     </div>
     <h1 class='header-title'>Water Above Water Below</h1>
 </app-layout>
+
+<!-- || DUMMY -->

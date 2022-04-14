@@ -14,36 +14,36 @@ import { WawbService } from '../wawb.service';
 export class DataComponent implements OnChanges {
 
   @Input() item;
-  @Output() close = new EventEmitter();
+  // @Output() close = new EventEmitter();
   
-  authorExpanded = {};
+  // authorExpanded = {};
   
-  image_above_audio_placeholder = 'assets/img/wawb-placeholder-above-audio.png';
-  image_below_audio_placeholder = 'assets/img/wawb-placeholder-below-audio.png';
-  image_above_noaudio_placeholder = 'assets/img/wawb-placeholder-above-noaudio.png';
-  image_below_noaudio_placeholder = 'assets/img/wawb-placeholder-below-noaudio.png';
+  // image_above_audio_placeholder = 'assets/img/wawb-placeholder-above-audio.png';
+  // image_below_audio_placeholder = 'assets/img/wawb-placeholder-below-audio.png';
+  // image_above_noaudio_placeholder = 'assets/img/wawb-placeholder-above-noaudio.png';
+  // image_below_noaudio_placeholder = 'assets/img/wawb-placeholder-below-noaudio.png';
 
   constructor(private api: WawbService) {
   }
 
   ngOnChanges(): void {
-    this.api.authorRecords.pipe(first()).subscribe((authorRecords) => {
-      const authors = this.item.author.split(',');
-      const credits = this.item.author_credits.split(',');
-      for (const i in authors) {
-        authors[i] = Object.assign({}, authorRecords[authors[i]]);
-        if (credits[i] && credits[i].length) {
-          authors[i].credit = credits[i];
-        } else {
-          authors[i].credit = authors[i].dafault_credit;
-        }
-      }
-      this.item.authors = authors;
-    });  
+    // this.api.authorRecords.pipe(first()).subscribe((authorRecords) => {
+    //   const authors = this.item.author.split(',');
+    //   const credits = this.item.author_credits.split(',');
+    //   for (const i in authors) {
+    //     authors[i] = Object.assign({}, authorRecords[authors[i]]);
+    //     if (credits[i] && credits[i].length) {
+    //       authors[i].credit = credits[i];
+    //     } else {
+    //       authors[i].credit = authors[i].dafault_credit;
+    //     }
+    //   }
+    //   this.item.authors = authors;
+    // });  
   }
 
-  get date() {
-    return dayjs(this.item.date).format(('dddd, D MMMM YYYY, h:mm a'))
-  }
+  // get date() {
+  //   return dayjs(this.item.date).format(('dddd, D MMMM YYYY, h:mm a'))
+  // }
 
 }
